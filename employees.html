@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Employees - InsightTalent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="data.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="employees.css">
+</head>
+<body class="flex h-screen overflow-hidden text-slate-800">
+
+    <aside class="w-64 bg-blue-950 text-blue-100 flex flex-col justify-between hidden md:flex">
+        <div>
+            <div class="p-6 flex items-center gap-3 text-white font-bold text-xl">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="layers" class="w-5 h-5"></i>
+                </div>
+                InsightTalent
+            </div>
+
+            <div class="px-6 mb-4">
+                <div class="flex items-center justify-between bg-blue-900 px-3 py-2 rounded-lg text-sm border border-blue-800">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 bg-blue-500 rounded text-white flex items-center justify-center text-xs font-bold">AC</div>
+                        Acme Corp
+                    </div>
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                </div>
+            </div>
+
+            <nav class="px-4 space-y-1">
+                <p class="px-2 text-xs font-semibold text-blue-400 mb-2 mt-6 uppercase tracking-wider">Main Menu</p>
+                <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-blue-900 transition-colors">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5 text-blue-300"></i> Dashboard
+                </a>
+                <a href="employees.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-700 text-white font-medium shadow-md">
+                    <i data-lucide="users" class="w-5 h-5"></i> Employees
+                </a>
+                <a href="evaluations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-blue-900 transition-colors">
+                    <i data-lucide="clipboard-check" class="w-5 h-5 text-blue-300"></i> Evaluations
+                </a>
+                <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-blue-900 transition-colors">
+                    <i data-lucide="user-plus" class="w-5 h-5 text-blue-300"></i> Team Builder
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-4 border-t border-slate-800">
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition-colors mb-2">
+                <i data-lucide="settings" class="w-5 h-5 text-slate-400"></i> Settings
+            </a>
+            <div class="flex items-center gap-3 px-3 py-2">
+                <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-sm">LA</div>
+                <div>
+                    <p class="text-sm font-medium text-white">Lincoln Aranda</p>
+                    <p class="text-xs text-slate-400">Engineering Manager</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full bg-slate-50">
+        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 shadow-sm z-10">
+            <div>
+                <h1 class="text-lg font-bold text-slate-800">Employees</h1>
+                <p class="text-xs text-slate-500">Rendimiento general y seguimiento del equipo</p>
+            </div>
+            <div class="flex items-center gap-4 text-slate-500">
+                <button class="hover:text-slate-800 relative">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </button>
+                <button class="hover:text-slate-800"><i data-lucide="search" class="w-5 h-5"></i></button>
+                <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-sm ml-2">LA</div>
+            </div>
+        </header>
+
+        <div class="px-8 pt-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <a href="dashboard.html" class="quick-card">
+                    <div class="quick-icon"><i data-lucide="layout-dashboard" class="w-5 h-5"></i></div>
+                    <div><p class="text-sm font-semibold text-slate-800">Dashboard</p><p class="text-xs text-slate-500">Overview and metrics</p></div>
+                </a>
+                <a href="employees.html" class="quick-card active">
+                    <div class="quick-icon"><i data-lucide="users" class="w-5 h-5"></i></div>
+                    <div><p class="text-sm font-semibold text-slate-800">Employees</p><p class="text-xs text-slate-500">Manage people and roles</p></div>
+                </a>
+                <a href="evaluations.html" class="quick-card">
+                    <div class="quick-icon"><i data-lucide="clipboard-check" class="w-5 h-5"></i></div>
+                    <div><p class="text-sm font-semibold text-slate-800">Evaluations</p><p class="text-xs text-slate-500">View assessment results</p></div>
+                </a>
+                <a href="index.html" class="quick-card">
+                    <div class="quick-icon"><i data-lucide="user-plus" class="w-5 h-5"></i></div>
+                    <div><p class="text-sm font-semibold text-slate-800">Team Builder</p><p class="text-xs text-slate-500">Compose and optimize teams</p></div>
+                </a>
+                <a href="#" class="quick-card">
+                    <div class="quick-icon"><i data-lucide="settings" class="w-5 h-5"></i></div>
+                    <div><p class="text-sm font-semibold text-slate-800">Settings</p><p class="text-xs text-slate-500">Configure account and workspace</p></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-8 flex flex-col lg:flex-row gap-8">
+            <div class="flex-1 panel-card p-6 flex flex-col gap-6">
+                <div>
+                    <h2 class="text-base font-semibold text-slate-800">Resumen de rendimiento</h2>
+                    <p class="text-sm text-slate-500">Listado de empleados con valoración general de 0 a 10.</p>
+                </div>
+
+                <div class="table-wrap">
+                    <table id="employeeTable">
+                        <thead>
+                            <tr>
+                                <th>Empleado</th>
+                                <th>Rol</th>
+                                <th>Equipo</th>
+                                <th>Nota general</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-96 flex flex-col gap-6">
+                <div class="panel-card p-6">
+                    <h2 class="text-base font-semibold text-slate-800 mb-4">Promedio del equipo</h2>
+                    <div class="score-ring">
+                        <div class="score-number" id="avgScore">8.4</div>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-3 text-center">El rendimiento general del equipo se encuentra por encima del objetivo mensual.</p>
+                </div>
+
+                <div class="panel-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-semibold text-slate-800">Promedios por equipo</h2>
+                        <span class="text-xs font-medium text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full">por equipo</span>
+                    </div>
+                    <div id="teamStatsList" class="space-y-3"></div>
+                </div>
+
+                <div class="panel-card p-6">
+                    <h2 class="text-base font-semibold text-slate-800 mb-4">Indicadores</h2>
+                    <div class="space-y-3">
+                        <div class="indicator-item">
+                            <div>
+                                <p class="font-medium text-slate-800">Excelente</p>
+                                <p class="text-sm text-slate-500"><span id="excellentCountText">0</span> colaboradores</p>
+                            </div>
+                            <span id="excellentCount" class="indicator-badge success">0</span>
+                        </div>
+                        <div class="indicator-item">
+                            <div>
+                                <p class="font-medium text-slate-800">Bueno</p>
+                                <p class="text-sm text-slate-500"> <span id="goodCountText">0</span> colaboradores</p>
+                            </div>
+                            <span id="goodCount" class="indicator-badge info">0</span>
+                        </div>
+                        <div class="indicator-item">
+                            <div>
+                                <p class="font-medium text-slate-800">En revisión</p>
+                                <p class="text-sm text-slate-500"> <span id="reviewCountText">0</span> colaboradores</p>
+                            </div>
+                            <span id="reviewCount" class="indicator-badge warning">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-card p-6">
+                    <h2 class="text-base font-semibold text-slate-800 mb-4">Equipo seleccionado</h2>
+                    <div id="teamDetailPanel" class="text-sm text-slate-600">
+                        <p>Haz clic en "Ver equipo" para ver a los miembros del equipo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        let employees = [];
+        const tbody = document.querySelector('#employeeTable tbody');
+        const avgScore = document.getElementById('avgScore');
+        const teamStatsList = document.getElementById('teamStatsList');
+        const teamDetailPanel = document.getElementById('teamDetailPanel');
+        const excellentCount = document.getElementById('excellentCount');
+        const goodCount = document.getElementById('goodCount');
+        const reviewCount = document.getElementById('reviewCount');
+        const excellentCountText = document.getElementById('excellentCountText');
+        const goodCountText = document.getElementById('goodCountText');
+        const reviewCountText = document.getElementById('reviewCountText');
+
+        function mapStatus(score) {
+            if (score >= 9) return 'Excelente';
+            if (score >= 8) return 'Bueno';
+            return 'En revisión';
+        }
+
+        function statusBadge(status) {
+            if (status === 'Excelente') return '<span class="status-pill success">Excelente</span>';
+            if (status === 'Bueno') return '<span class="status-pill info">Bueno</span>';
+            return '<span class="status-pill warning">En revisión</span>';
+        }
+
+        function updateIndicators() {
+            const counts = employees.reduce((acc, emp) => {
+                if (emp.status === 'Excelente') acc.excellent++;
+                else if (emp.status === 'Bueno') acc.good++;
+                else acc.review++;
+                return acc;
+            }, { excellent: 0, good: 0, review: 0 });
+            excellentCount.textContent = counts.excellent;
+            goodCount.textContent = counts.good;
+            reviewCount.textContent = counts.review;
+            excellentCountText.textContent = counts.excellent;
+            goodCountText.textContent = counts.good;
+            reviewCountText.textContent = counts.review;
+        }
+
+        function showTeamDetails(team) {
+            const teamMembers = employees.filter(emp => emp.team === team);
+            teamDetailPanel.innerHTML = `
+                <p class="font-medium text-slate-800 mb-2">${team}</p>
+                <div class="space-y-2">
+                    ${teamMembers.map(emp => `<div class="text-sm text-slate-700">• ${emp.name} — ${emp.role}</div>`).join('')}
+                </div>
+            `;
+        }
+
+        function rowFor(emp) {
+            return `
+                <tr>
+                    <td class="employee-cell">
+                        <div class="avatar">${emp.name.split(' ').map(n => n[0]).slice(0, 2).join('')}</div>
+                        <div>
+                            <div class="emp-name">${emp.name}</div>
+                            <div class="emp-sub">${emp.team}</div>
+                        </div>
+                    </td>
+                    <td>${emp.role}</td>
+                    <td>${emp.team}</td>
+                    <td><span class="score-value">${emp.score.toFixed(1)}</span> ${statusBadge(emp.status)}</td>
+                    <td><button class="btn small" onclick="showTeamDetails('${emp.team}')">Ver equipo</button></td>
+                </tr>
+            `;
+        }
+
+        function renderTeamStats() {
+            const grouped = employees.reduce((acc, emp) => {
+                if (!acc[emp.team]) {
+                    acc[emp.team] = { team: emp.team, members: [], total: 0 };
+                }
+                acc[emp.team].members.push(emp.name);
+                acc[emp.team].total += emp.score;
+                return acc;
+            }, {});
+
+            teamStatsList.innerHTML = Object.values(grouped).map(group => {
+                const avg = (group.total / group.members.length).toFixed(1);
+                return `
+                    <div class="team-item">
+                        <div class="team-item-header">
+                            <div>
+                                <p class="font-medium text-slate-800">${group.team}</p>
+                                <p class="text-sm text-slate-500">${group.members.length} integrantes</p>
+                            </div>
+                            <span class="team-badge">${avg}</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">${group.members.join(', ')}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderTable() {
+            const rows = employees.map(emp => rowFor(emp)).join('');
+            tbody.innerHTML = rows;
+            const average = employees.length ? (employees.reduce((sum, emp) => sum + emp.score, 0) / employees.length).toFixed(1) : '0.0';
+            avgScore.textContent = average;
+            renderTeamStats();
+            updateIndicators();
+            lucide.createIcons();
+        }
+
+        loadEmployeeData().then(data => {
+            employees = data.map(emp => ({
+                ...emp,
+                status: mapStatus(emp.score)
+            }));
+            renderTable();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightTalent AI - Team Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="data.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        /* Custom scrollbar for employee list */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="flex min-h-screen overflow-hidden bg-slate-50 text-slate-800">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-blue-950 text-blue-100 flex flex-col justify-between hidden md:flex">
+        <div>
+            <div class="p-6 flex items-center gap-3 text-white font-bold text-xl">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="layers" class="w-5 h-5"></i>
+                </div>
+                InsightTalent
+            </div>
+            
+            <div class="px-6 mb-4">
+                <div class="flex items-center justify-between bg-blue-900 px-3 py-2 rounded-lg text-sm border border-blue-800">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 bg-blue-500 rounded text-white flex items-center justify-center text-xs font-bold">AC</div>
+                        Acme Corp
+                    </div>
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                </div>
+            </div>
+
+            <nav class="px-4 space-y-1">
+                <p class="px-2 text-xs font-semibold text-blue-400 mb-2 mt-6 uppercase tracking-wider">Main Menu</p>
+                <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-blue-900 transition-colors">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5 text-blue-300"></i> Dashboard
+                </a>
+                <a href="employees.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-blue-900 transition-colors">
+                    <i data-lucide="users" class="w-5 h-5 text-blue-300"></i> Employees
+                </a>
+                <a href="evaluations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-blue-900 transition-colors">
+                    <i data-lucide="clipboard-check" class="w-5 h-5 text-blue-300"></i> Evaluations
+                </a>
+                <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-700 text-white font-medium shadow-md">
+                    <i data-lucide="user-plus" class="w-5 h-5"></i> Team Builder
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-4 border-t border-slate-800">
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition-colors mb-2">
+                <i data-lucide="settings" class="w-5 h-5 text-slate-400"></i> Settings
+            </a>
+            <div class="flex items-center gap-3 px-3 py-2">
+                <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-sm">LA</div>
+                <div>
+                    <p class="text-sm font-medium text-white">Lincoln Aranda</p>
+                    <p class="text-xs text-slate-400">Engineering Manager</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-h-0 bg-slate-50">
+        <!-- Header -->
+        <header class="min-h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 shadow-sm z-10">
+            <div>
+                <h1 class="text-lg font-bold text-slate-800">Team Builder</h1>
+                <p class="text-xs text-slate-500">Compose and optimize teams</p>
+            </div>
+            <div class="flex items-center gap-4 text-slate-500">
+                <button class="hover:text-slate-800 relative">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </button>
+                <button class="hover:text-slate-800"><i data-lucide="search" class="w-5 h-5"></i></button>
+                <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-sm ml-2">LA</div>
+            </div>
+        </header>
+
+        <!-- Quick Options -->
+        <div class="px-4 pt-4 sm:px-6 sm:pt-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
+                <a href="dashboard.html" class="flex items-start gap-3 p-4 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-colors">
+                    <div class="p-2 bg-blue-50 rounded-md text-blue-600">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-800">Dashboard</p>
+                        <p class="text-xs text-slate-500">Overview and metrics</p>
+                    </div>
+                </a>
+
+                <a href="employees.html" class="flex items-start gap-3 p-4 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-colors">
+                    <div class="p-2 bg-blue-50 rounded-md text-blue-600">
+                        <i data-lucide="users" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-800">Employees</p>
+                        <p class="text-xs text-slate-500">Manage people and roles</p>
+                    </div>
+                </a>
+
+                <a href="evaluations.html" class="flex items-start gap-3 p-4 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-colors">
+                    <div class="p-2 bg-blue-50 rounded-md text-blue-600">
+                        <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-800">Evaluations</p>
+                        <p class="text-xs text-slate-500">View assessment results</p>
+                    </div>
+                </a>
+
+                <a href="index.html" class="flex items-start gap-3 p-4 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-colors">
+                    <div class="p-2 bg-blue-50 rounded-md text-blue-600">
+                        <i data-lucide="user-plus" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-800">Team Builder</p>
+                        <p class="text-xs text-slate-500">Compose and optimize teams</p>
+                    </div>
+                </a>
+
+                <a href="#" class="flex items-start gap-3 p-4 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-colors">
+                    <div class="p-2 bg-blue-50 rounded-md text-blue-600">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-800">Settings</p>
+                        <p class="text-xs text-slate-500">Configure account and workspace</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Content Layout -->
+        <div class="flex-1 min-h-0 overflow-hidden p-4 sm:p-6 lg:p-8 flex flex-col xl:flex-row gap-4 sm:gap-6 lg:gap-8">
+            
+            <!-- Left Column: Create Team Form -->
+            <div class="flex-1 min-w-0 bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 overflow-hidden">
+                <div class="flex-1 min-h-0 overflow-y-auto pr-2 pb-2 custom-scrollbar">
+                    <div>
+                        <h2 class="text-base font-semibold text-slate-800">Create New Team</h2>
+                    </div>
+
+                    <div class="space-y-4 mt-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Team Name</label>
+                        <input type="text" id="teamName" placeholder="e.g. Project Apollo" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Description</label>
+                        <textarea id="teamDesc" rows="2" placeholder="Brief team purpose and objectives..." class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-800">Team Group</p>
+                                <p class="text-xs text-slate-500">Filtra y genera equipos automáticamente.</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Modo</label>
+                                <select id="groupModeSelect" class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="single">Propuesta única</option>
+                                    <option value="compare3">Comparar 3 grupos</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Criterio</label>
+                                <select id="prioritySelect" class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="timeActive">Mayor tiempo de actividad</option>
+                                    <option value="score">Mayor puntuación</option>
+                                    <option value="availability">Mayor disponibilidad</option>
+                                    <option value="workload">Balance de carga</option>
+                                    <option value="random">Aleatorio</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Carga</label>
+                                <select id="workloadSelect" class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="any">Cualquiera</option>
+                                    <option value="low">Baja</option>
+                                    <option value="medium">Media</option>
+                                    <option value="high">Alta</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Disponibilidad</label>
+                                <select id="availabilitySelect" class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="any">Cualquiera</option>
+                                    <option value="high">Alta</option>
+                                    <option value="medium">Media</option>
+                                    <option value="low">Baja</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Tamaño</label>
+                                <input id="sizeInput" type="number" min="1" max="12" value="6" class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                        </div>
+                        <button id="generateBtn" class="w-full mt-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">Generar equipo</button>
+                        <div id="proposalPanel" class="mt-4 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700 shadow-sm">
+                            <p class="text-slate-500">Selecciona un criterio y genera un equipo para visualizar la propuesta aquí.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected Members Area -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-sm font-medium text-slate-700 uppercase tracking-wider text-xs">Team Members</label>
+                        <span id="selectedCount" class="text-xs text-slate-500">0 selected</span>
+                    </div>
+                    <div id="selectedMembersArea" class="min-h-[100px] border-2 border-dashed border-slate-200 rounded-xl bg-slate-50 p-4 flex flex-col items-center justify-center gap-2 transition-all">
+                        <i data-lucide="user-plus" class="w-8 h-8 text-slate-300"></i>
+                        <p class="text-sm text-slate-400">Add members from the panel below</p>
+                    </div>
+                    <!-- This div will hold the actual selected members when populated -->
+                    <div id="selectedList" class="hidden flex flex-col gap-2 mt-2"></div>
+                </div>
+
+                <!-- Available Employees List -->
+                <div class="flex-1 flex flex-col min-h-[12rem] min-h-0">
+                    <label class="block text-sm font-medium text-slate-700 uppercase tracking-wider text-xs mb-2">Available Employees</label>
+                    <div class="relative mb-3">
+                        <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-400"></i>
+                        <input type="text" id="searchInput" placeholder="Search employees..." class="w-full pl-9 pr-4 py-2 bg-slate-100 border-transparent rounded-lg focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all text-sm">
+                    </div>
+                    <div class="flex-1 min-h-0 rounded-xl border border-slate-200 bg-slate-50/70 p-2 shadow-inner">
+                        <div id="availableList" class="employee-list-shell custom-scrollbar pr-2 flex flex-col gap-2">
+                            <!-- Employees will be rendered here via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- Actions -->
+                    <div class="sticky bottom-0 mt-4 flex flex-col gap-3 pt-4 border-t border-slate-100 sm:flex-row sm:items-center bg-white/95 backdrop-blur-sm">
+                        <button id="clearBtn" class="w-full sm:flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-medium transition-colors">Clear</button>
+                        <button id="createBtn" class="w-full sm:flex-[2] py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium shadow-sm transition-colors flex justify-center items-center gap-2">
+                            <span>Create Team</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Existing Teams & AI Tip -->
+            <div class="w-full xl:w-[22rem] 2xl:w-[24rem] flex-shrink-0 flex flex-col gap-4 sm:gap-6 overflow-y-auto custom-scrollbar">
+                <!-- Existing Teams -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h2 class="text-base font-semibold text-slate-800 mb-4">Existing Teams</h2>
+                    <div id="existingTeamsList" class="flex flex-col gap-3">
+                        <!-- Teams will be rendered here via JS -->
+                    </div>
+                </div>
+
+                <!-- Optimization Tip (AI) -->
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-sm border border-blue-100 p-6 relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 text-blue-200 opacity-50">
+                        <i data-lucide="cpu" class="w-24 h-24"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-3 text-blue-800 font-semibold text-sm">
+                            <i data-lucide="sparkles" class="w-4 h-4"></i> Optimization Tip
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                            Adding a UX Researcher to <strong class="text-slate-800">Project Horizon</strong> could improve delivery score by an estimated <span class="text-emerald-600 font-bold">+6 pts</span> based on role balance analysis.
+                        </p>
+                        <button class="w-full py-2 bg-white text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 font-medium text-sm transition-colors shadow-sm">
+                            Run Full Optimization
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Toast Notification (Hidden by default) -->
+    <div id="toast" class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 z-50">
+        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+        <span id="toastMsg" class="text-sm font-medium">Team created successfully!</span>
+    </div>
+    <div id="loadingOverlay" class="fixed inset-0 hidden flex items-center justify-center bg-slate-950/40 z-50">
+        <div class="flex flex-col items-center gap-3 rounded-3xl bg-white/95 border border-slate-200 p-6 shadow-2xl">
+            <div class="w-14 h-14 rounded-full border-4 border-blue-200 border-t-blue-600 animate-spin"></div>
+            <p id="loadingMessage" class="text-sm font-medium text-slate-700">Cargando resultados...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        lucide.createIcons();
+
+        let fullEmployees = [];
+        let availableEmployees = [];
+        let selectedMembers = [];
+        let currentProposal = null;
+
+        let existingTeams = [
+            { name: 'Project Horizon', score: 91, members: 5, lead: 'Priya' },
+            { name: 'Growth Squad', score: 84, members: 4, lead: 'Dana' },
+            { name: 'Infrastructure', score: 79, members: 3, lead: 'Kai' }
+        ];
+
+        const availableListEl = document.getElementById('availableList');
+        const selectedListEl = document.getElementById('selectedList');
+        const selectedMembersArea = document.getElementById('selectedMembersArea');
+        const selectedCountEl = document.getElementById('selectedCount');
+        const existingTeamsListEl = document.getElementById('existingTeamsList');
+        const searchInput = document.getElementById('searchInput');
+        const teamNameInput = document.getElementById('teamName');
+        const teamDescInput = document.getElementById('teamDesc');
+        const createBtn = document.getElementById('createBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
+        const prioritySelect = document.getElementById('prioritySelect');
+        const workloadSelect = document.getElementById('workloadSelect');
+        const availabilitySelect = document.getElementById('availabilitySelect');
+        const groupModeSelect = document.getElementById('groupModeSelect');
+        const sizeInput = document.getElementById('sizeInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const proposalPanel = document.getElementById('proposalPanel');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingMessage = document.getElementById('loadingMessage');
+
+        function renderAvailable(filterText = '') {
+            if (!availableListEl) return;
+            availableListEl.innerHTML = '';
+
+            const safeEmployees = Array.isArray(availableEmployees) ? availableEmployees : [];
+            const filtered = safeEmployees.filter(emp => {
+                const haystack = `${emp.name || ''} ${emp.role || ''} ${emp.team || ''}`.toLowerCase();
+                return haystack.includes((filterText || '').toLowerCase());
+            });
+
+            if (filtered.length === 0) {
+                availableListEl.innerHTML = '<p class="text-sm text-slate-500 text-center py-4">No employees found.</p>';
+                return;
+            }
+
+            filtered.forEach(emp => {
+                const el = document.createElement('div');
+                el.className = 'flex items-center justify-between gap-3 p-3 bg-white border border-slate-200 rounded-lg hover:border-blue-200 transition-colors shadow-sm';
+                el.innerHTML = `
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-8 h-8 rounded-full ${emp.color || 'bg-blue-600'} text-white flex items-center justify-center text-xs font-bold shadow-sm shrink-0">
+                            ${emp.initial || '•'}
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-semibold text-slate-800 truncate">${emp.name || 'Sin nombre'}</p>
+                            <p class="text-xs text-slate-500 truncate">${emp.role || 'Sin rol'} · ${emp.team || 'Sin equipo'}</p>
+                        </div>
+                    </div>
+                    <button onclick="addMember(${emp.id})" class="shrink-0 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-md transition-colors flex items-center gap-1 border border-blue-100">
+                        <i data-lucide="plus" class="w-3 h-3"></i> Add
+                    </button>
+                `;
+                availableListEl.appendChild(el);
+            });
+            lucide.createIcons();
+        }
+
+        function renderSelected() {
+            selectedListEl.innerHTML = '';
+            selectedCountEl.innerText = `${selectedMembers.length} selected`;
+
+            if (selectedMembers.length === 0) {
+                selectedMembersArea.classList.remove('hidden');
+                selectedListEl.classList.add('hidden');
+            } else {
+                selectedMembersArea.classList.add('hidden');
+                selectedListEl.classList.remove('hidden');
+
+                selectedMembers.forEach(emp => {
+                    const el = document.createElement('div');
+                    el.className = 'flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-lg';
+                    el.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <div class="w-7 h-7 rounded-full ${emp.color} text-white flex items-center justify-center text-xs font-bold shadow-sm">
+                                ${emp.initial}
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-slate-800">${emp.name}</p>
+                                <p class="text-xs text-slate-500">${emp.role}</p>
+                            </div>
+                        </div>
+                        <button onclick="removeMember(${emp.id})" class="text-slate-400 hover:text-red-500 transition-colors p-1">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    `;
+                    selectedListEl.appendChild(el);
+                });
+            }
+            lucide.createIcons();
+        }
+
+        function renderTeams() {
+            existingTeamsListEl.innerHTML = '';
+            existingTeams.forEach(team => {
+                let scoreColor = 'text-emerald-500';
+                if (team.score < 85 && team.score >= 80) scoreColor = 'text-blue-500';
+                if (team.score < 80) scoreColor = 'text-amber-500';
+
+                const el = document.createElement('div');
+                el.className = 'p-4 border border-slate-200 rounded-lg bg-slate-50 flex items-center justify-between hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group';
+                el.innerHTML = `
+                    <div>
+                        <h3 class="text-sm font-semibold text-slate-800 group-hover:text-blue-600 transition-colors">${team.name}</h3>
+                        <div class="flex items-center gap-3 mt-1 text-xs text-slate-500">
+                            <span class="flex items-center gap-1"><i data-lucide="users" class="w-3 h-3"></i> ${team.members} members</span>
+                            <span class="flex items-center gap-1"><i data-lucide="user" class="w-3 h-3"></i> Lead: ${team.lead}</span>
+                        </div>
+                    </div>
+                    <div class="${scoreColor} font-bold text-lg">
+                        ${team.score}
+                    </div>
+                `;
+                existingTeamsListEl.appendChild(el);
+            });
+            lucide.createIcons();
+        }
+
+        function showToast(msg) {
+            toastMsg.innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function showLoading(message = 'Cargando resultados...') {
+            loadingMessage.innerText = message;
+            loadingOverlay.classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            loadingOverlay.classList.add('hidden');
+        }
+
+        async function performWithLoading(action, message) {
+            showLoading(message);
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            try {
+                await action();
+            } finally {
+                hideLoading();
+            }
+        }
+
+        window.addMember = function(id) {
+            const index = availableEmployees.findIndex(e => e.id === id);
+            if (index > -1) {
+                const emp = availableEmployees.splice(index, 1)[0];
+                selectedMembers.push(emp);
+                renderAvailable(searchInput.value);
+                renderSelected();
+            }
+        };
+
+        window.removeMember = function(id) {
+            const index = selectedMembers.findIndex(e => e.id === id);
+            if (index > -1) {
+                const emp = selectedMembers.splice(index, 1)[0];
+                availableEmployees.push(emp);
+                availableEmployees.sort((a, b) => a.id - b.id);
+                renderAvailable(searchInput.value);
+                renderSelected();
+            }
+        };
+
+        function displayProposal(proposal) {
+            currentProposal = proposal;
+            const membersHtml = proposal.team.map(emp => `
+                <li class="flex items-center justify-between pt-3 pb-2 border-b border-slate-200">
+                    <span>${emp.name}</span>
+                    <span class="text-xs text-slate-500">${emp.role}</span>
+                </li>
+            `).join('');
+
+            proposalPanel.innerHTML = `
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <p class="text-sm font-semibold text-slate-800">${proposal.name}</p>
+                            <p class="text-xs text-slate-500">${proposal.members} integrantes · Promedio ${proposal.score}</p>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold">${proposal.members} / 12</span>
+                    </div>
+                    <ul class="text-sm text-slate-700">${membersHtml}</ul>
+                    <div class="mt-4 flex flex-col gap-3 sm:flex-row">
+                        <button onclick="acceptProposal()" class="w-full sm:flex-1 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors">Aceptar</button>
+                        <button onclick="regenerateProposal()" class="w-full sm:flex-1 py-2 rounded-lg bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors">Generar otra</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function buildOverlayBars(groups, metric) {
+            const labels = {
+                score: 'Puntuación',
+                availability: 'Disponibilidad',
+                activeDays: 'Tiempo activo'
+            };
+            const maxValue = Math.max(...groups.map(g => g[metric])) || 1;
+            return `
+                <div class="mb-4">
+                    <div class="flex items-center justify-between text-xs uppercase text-slate-500 mb-2">
+                        <span>${labels[metric]}</span>
+                        <div class="flex items-center gap-2">
+                            ${groups.map((group, index) => `
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] ${index === 0 ? 'bg-blue-100 text-blue-700' : index === 1 ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}">
+                                    <span class="w-2 h-2 rounded-full ${index === 0 ? 'bg-blue-500' : index === 1 ? 'bg-amber-500' : 'bg-emerald-500'}"></span>${group.name}: ${group[metric]}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="relative h-3 rounded-full bg-slate-200 overflow-hidden">
+                        ${groups.map((group, index) => `
+                            <div class="absolute inset-y-0 left-0 rounded-full ${index === 0 ? 'bg-blue-500/40' : index === 1 ? 'bg-amber-500/40' : 'bg-emerald-500/40'}" style="width:${Math.round((group[metric] / maxValue) * 100)}%"></div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayComparison(comparison) {
+            currentProposal = { ...comparison, type: 'compare' };
+            const groupsHtml = comparison.groups.map((group, idx) => `
+                <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 shadow-sm flex-1">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <p class="text-sm font-semibold text-slate-800">${group.name}</p>
+                            <p class="text-xs text-slate-500">${group.members} miembros · Score ${group.score}</p>
+                        </div>
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full ${idx === 0 ? 'bg-blue-100 text-blue-700' : idx === 1 ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'} text-xs font-semibold">${String.fromCharCode(65 + idx)}</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-700">
+                        ${group.team.map(emp => `<li class="flex items-center justify-between"><span>${emp.name}</span><span class="text-[11px] text-slate-500">${emp.role}</span></li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+
+            proposalPanel.innerHTML = `
+                <div>
+                    <div class="mb-4 grid gap-3 md:grid-cols-3">
+                        ${groupsHtml}
+                    </div>
+                    <div class="mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                        <h3 class="text-sm font-semibold text-slate-800 mb-3">Comparativa de grupos</h3>
+                        ${buildOverlayBars(comparison.groups, 'score')}
+                        ${buildOverlayBars(comparison.groups, 'availability')}
+                        ${buildOverlayBars(comparison.groups, 'activeDays')}
+                        <div class="mt-3 flex flex-col gap-3 sm:flex-row">
+                            <button onclick="acceptProposal()" class="w-full sm:flex-1 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors">Aceptar mejor opción</button>
+                            <button onclick="regenerateProposal()" class="w-full sm:flex-1 py-2 rounded-lg bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors">Regenerar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectSortStrategy(priority, workload) {
+            switch (priority) {
+                case 'timeActive':
+                    return (a, b) => b.activeDays - a.activeDays || b.score - a.score;
+                case 'score':
+                    return (a, b) => b.score - a.score || b.availability - a.availability;
+                case 'availability':
+                    return (a, b) => b.availability - a.availability || b.score - a.score;
+                case 'workload':
+                    return (a, b) => {
+                        const order = { low: 0, medium: 1, high: 2 };
+                        return order[workload] === 2 ? order[b.workload] - order[a.workload] : order[a.workload] - order[b.workload] || b.score - a.score;
+                    };
+                default:
+                    return () => Math.random() - 0.5;
+            }
+        }
+
+        function computeGroupMetrics(team) {
+            const score = team.reduce((sum, emp) => sum + emp.score, 0) / team.length;
+            const availability = Math.round(team.reduce((sum, emp) => sum + emp.availability, 0) / team.length);
+            const activeDays = Math.round(team.reduce((sum, emp) => sum + emp.activeDays, 0) / team.length);
+            return { score: Number(score.toFixed(1)), availability, activeDays };
+        }
+
+        function generateGroupComparisons(employees, options) {
+            const filtered = employees.filter(emp => {
+                if (options.workload && options.workload !== 'any' && emp.workload !== options.workload) return false;
+                if (options.availability && options.availability !== 'any') {
+                    if (options.availability === 'high' && emp.availability < 6) return false;
+                    if (options.availability === 'medium' && emp.availability < 4) return false;
+                    if (options.availability === 'low' && emp.availability > 3) return false;
+                }
+                return true;
+            });
+            const pool = filtered.length ? filtered : [...employees];
+            const groupSize = Math.min(Math.max(Number(options.size) || 3, 1), 12);
+            const primarySort = selectSortStrategy(options.priority, options.workload);
+            const alternateSort = selectSortStrategy(options.priority === 'score' ? 'availability' : options.priority === 'availability' ? 'score' : 'timeActive', options.workload);
+            const balancedSort = (a, b) => (b.score * 1.2 + b.availability * 0.8 + b.activeDays / 40) - (a.score * 1.2 + a.availability * 0.8 + a.activeDays / 40);
+
+            const groups = [
+                { name: 'Grupo A', sort: primarySort },
+                { name: 'Grupo B', sort: alternateSort },
+                { name: 'Grupo C', sort: balancedSort }
+            ].map((candidate, index) => {
+                const sorted = [...pool].sort(candidate.sort);
+                const start = index * groupSize;
+                const team = sorted.slice(start, start + groupSize);
+                const normalizedTeam = team.length === groupSize ? team : sorted.slice(0, groupSize);
+                return {
+                    name: candidate.name,
+                    team: normalizedTeam,
+                    members: normalizedTeam.length,
+                    ...computeGroupMetrics(normalizedTeam)
+                };
+            });
+            return { type: 'compare', groups };
+        }
+
+        function acceptProposal() {
+            if (!currentProposal) return;
+            if (currentProposal.type === 'compare') {
+                const bestGroup = currentProposal.groups.reduce((best, group) => {
+                    if (!best) return group;
+                    if (group.score > best.score) return group;
+                    if (group.score === best.score && group.availability > best.availability) return group;
+                    if (group.score === best.score && group.availability === best.availability && group.activeDays > best.activeDays) return group;
+                    return best;
+                }, null);
+
+                if (!bestGroup) return;
+
+                bestGroup.team.forEach(emp => {
+                    if (!selectedMembers.some(selected => selected.id === emp.id)) {
+                        selectedMembers.push(emp);
+                    }
+                    availableEmployees = availableEmployees.filter(item => item.id !== emp.id);
+                });
+
+                renderAvailable(searchInput.value);
+                renderSelected();
+                showToast(`${bestGroup.name} añadido al equipo.`);
+                return;
+            }
+
+            existingTeams.unshift({
+                name: currentProposal.name,
+                score: Number(currentProposal.score),
+                members: currentProposal.members,
+                lead: currentProposal.team[0]?.name.split(' ')[0] || 'Lead'
+            });
+            renderTeams();
+            showToast(`Propuesta ${currentProposal.name} aceptada.`);
+        }
+
+        function regenerateProposal() {
+            if (!fullEmployees.length) return;
+            generateProposal();
+        }
+
+        async function generateProposal() {
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = 'Procesando...';
+            const sizeValue = Number(sizeInput.value);
+            const options = {
+                mode: groupModeSelect.value,
+                priority: prioritySelect.value,
+                workload: workloadSelect.value,
+                availability: availabilitySelect.value,
+                size: Number.isFinite(sizeValue) && sizeValue > 0 ? Math.min(sizeValue, 12) : 6
+            };
+            await performWithLoading(async () => {
+                let result;
+                if (options.mode === 'compare3') {
+                    result = generateGroupComparisons(fullEmployees, options);
+                    displayComparison(result);
+                } else {
+                    result = generateTeamProposal(fullEmployees, options);
+                    displayProposal(result);
+                }
+            }, options.mode === 'compare3' ? 'Comparando grupos...' : 'Generando equipo...');
+            generateBtn.disabled = false;
+            generateBtn.innerHTML = 'Generar';
+        }
+
+        function renderManualTeam() {
+            if (!fullEmployees.length) return;
+            availableEmployees = fullEmployees.filter(emp => !selectedMembers.some(selected => selected.id === emp.id));
+            renderAvailable();
+            renderSelected();
+            renderTeams();
+        }
+
+        createBtn.addEventListener('click', () => {
+            const name = teamNameInput.value.trim();
+            if (!name) {
+                alert('Por favor ingresa un nombre para el equipo.');
+                teamNameInput.focus();
+                return;
+            }
+            if (selectedMembers.length === 0) {
+                alert('Por favor agrega al menos un miembro al equipo.');
+                return;
+            }
+
+            createBtn.disabled = true;
+            createBtn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Procesando...';
+            lucide.createIcons();
+
+            performWithLoading(() => {
+                return new Promise(resolve => {
+                    const newTeam = {
+                        name: name,
+                        score: Math.floor(Math.random() * (98 - 75 + 1)) + 75,
+                        members: selectedMembers.length,
+                        lead: selectedMembers[0].name.split(' ')[0]
+                    };
+                    existingTeams.unshift(newTeam);
+                    teamNameInput.value = '';
+                    teamDescInput.value = '';
+                    availableEmployees = [...availableEmployees, ...selectedMembers].sort((a, b) => a.id - b.id);
+                    selectedMembers = [];
+                    renderTeams();
+                    renderAvailable();
+                    renderSelected();
+                    searchInput.value = '';
+                    createBtn.innerHTML = '<span>Create Team</span>';
+                    createBtn.disabled = false;
+                    showToast(`Equipo "${name}" creado correctamente.`);
+                    resolve();
+                });
+            }, 'Creando grupo...');
+        });
+
+        clearBtn.addEventListener('click', () => {
+            teamNameInput.value = '';
+            teamDescInput.value = '';
+            if (selectedMembers.length > 0) {
+                availableEmployees = [...availableEmployees, ...selectedMembers].sort((a, b) => a.id - b.id);
+                selectedMembers = [];
+                renderAvailable();
+                renderSelected();
+            }
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            renderAvailable(e.target.value);
+        });
+
+        generateBtn.addEventListener('click', generateProposal);
+
+        async function initializeEmployees() {
+            const dataLoader = window.loadEmployeeData || (() => Promise.resolve(window.fallbackEmployees || []));
+            try {
+                const data = await dataLoader();
+                fullEmployees = Array.isArray(data) ? data : (window.fallbackEmployees || []);
+            } catch (error) {
+                fullEmployees = window.fallbackEmployees || [];
+            }
+            if (!Array.isArray(fullEmployees) || fullEmployees.length === 0) {
+                fullEmployees = Array.isArray(window.fallbackEmployees) ? window.fallbackEmployees : [];
+            }
+            selectedMembers = [];
+            availableEmployees = [...fullEmployees];
+            renderAvailable();
+            renderSelected();
+            renderTeams();
+        }
+
+        initializeEmployees();
+    </script>
+</body>
+</html>
