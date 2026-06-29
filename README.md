@@ -1,6 +1,12 @@
 # SyncroProyect
 Proyecto web para visualizar empleados, revisar evaluaciones y crear equipos de trabajo de forma automática. Incluye una interfaz moderna con dashboard, gestión de personal y un Team Builder que permite filtrar empleados y generar propuestas de equipos según distintos criterios.
 
+# Usar el programa
+- Exportar en .zip
+- Extraer en una carpeta
+- Abrir la carpeta en una hoja blanca de visual studio code
+- Ejecutar el codigo
+- (Es recomendable usar LiveServer que es una extensionde Visual Studio Code)
 
 Resumen general del proyecto
 El proyecto está formado por 4 páginas HTML y un archivo JavaScript central que comparten la misma idea: mostrar información de empleados y ayudar a crear equipos de trabajo de forma visual y organizada.
