@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightTalent AI - Constructor de Equipos</title>
+    <script src="data.js"></script>
+    <style>
+        /* Estilos básicos para la interfaz de usuario */
+        :root { font-family: system-ui; line-height: 1.5; }
+        body { margin: 0; background: #f5f7fb; color: #111827; padding: 20px; }
+        main { max-width: 900px; margin: 0 auto; display: grid; gap: 15px; }
+        header, section, aside, .tarjeta { background: #fff; border: 1px solid #e5e7eb; padding: 12px; }
+        .grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        input, select, button { padding: 8px; border: 1px solid #d1d5db; width: 100%; box-sizing: border-box;}
+        button { cursor: pointer; background: #111827; color: white; font-weight: bold; border: none; }
+        button.secundario { background: #f3f4f6; color: #111827; }
+        .lista { display: grid; gap: 8px; margin-top: 10px; }
+        #aviso { position: fixed; right: 20px; bottom: 20px; display: none; background: #111827; color: white; padding: 10px;}
+    </style>
+</head>
+<body>
+    <main>
+        <header><h1>Constructor de Equipos</h1></header>
+        <section>
+            <h2>Crear equipo</h2>
+            <div class="grid">
+                <label>Nombre <input type="text" id="nombre-equipo" placeholder="Ej. Proyecto Apollo"></label>
+                <label>Modo
+                    <select id="modo-select">
+                        <option value="unica">Propuesta única</option>
+                        <option value="comparar">Comparar 3 grupos</option>
+                    </select>
+                </label>
+                <label>Criterio
+                    <select id="criterio-select">
+                        <option value="puntaje">Mayor puntuación</option>
+                        <option value="disponibilidad">Mayor disponibilidad</option>
+                        <option value="carga">Balance de carga</option>
+                        <option value="aleatorio">Aleatorio</option>
+                    </select>
+                </label>
+                <label>Carga
+                    <select id="carga-select">
+                        <option value="cualquiera">Cualquiera</option>
+                        <option value="baja">Baja</option>
+                        <option value="media">Media</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </label>
+                <label>Disponibilidad
+                    <select id="disponibilidad-select">
+                        <option value="cualquiera">Cualquiera</option>
+                        <option value="alta">Alta</option>
+                        <option value="media">Media</option>
+                        <option value="baja">Baja</option>
+                    </select>
+                </label>
+                <label>Tamaño
+                    <select id="tamanio-select">
+                        <option value="3">3 integrantes</option>
+                        <option value="6" selected>6 integrantes</option>
+                    </select>
+                </label>
+            </div>
+            <button id="btn-generar" style="margin-top:10px;" >Generar propuesta de equipo</button>
+            <div id="panel-propuesta" class="tarjeta" style="margin-top:10px;">
+                <p>Configura los criterios y haz clic en generar para ver las propuestas aquí.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Miembros Seleccionados (<span id="contador-seleccionados">0</span>)</h2>
+            <div id="lista-seleccionados" class="lista"></div>
+        </section>
+
+        <section>
+            <h2>Buscar e Incorporar Empleados</h2>
+            <input type="text" id="buscar-empleado" placeholder="Buscar por nombre, rol o equipo...">
+            <div id="lista-disponibles" class="lista"></div>
+        </section>
+
+        <section class="grid">
+            <button id="btn-limpiar" class="secundario">Limpiar campos</button>
+            <button id="btn-crear">Confirmar y Guardar Estructura</button>
+        </section>
+
+        <aside>
+            <h2>Equipos Consolidados</h2>
+            <div id="lista-equipos"></div>
+        </aside>
+    </main>
+    <div id="aviso"></div>
+
+    <script>
+        /* inicialización de variables de lista */
+        let empleadosCompletos = [], empleadosDisponibles = [], miembrosSeleccionados = [], propuestaActual = null, equiposExistentes = [];
+
+        /* Referencias a elementos del DOM */
+        const Disponibles = document.getElementById('lista-disponibles');
+        const Seleccionados = document.getElementById('lista-seleccionados');
+        const Equipos = document.getElementById('lista-equipos');
+        const txtBuscar = document.getElementById('buscar-empleado');
+        const txtNombreEquipo = document.getElementById('nombre-equipo');
+        const PanelPropuesta = document.getElementById('panel-propuesta');
+        const Aviso = document.getElementById('aviso');
+
+        // Función para mostrar un aviso en un recuadro negro */
+        function mostrarAviso(msg) {
+            Aviso.innerText = msg;
+            Aviso.style.display = 'block';
+            setTimeout(() => Aviso.style.display = 'none', 500);
+        }
+
+        // Muestra la lista de empleados de data.js
+        function dibujarDisponibles() {
+            Disponibles.innerHTML = '';
+            const busqueda = txtBuscar.value.toLowerCase();
+            empleadosDisponibles.forEach((e, indice) => {
+                if (!`${e.nombre} ${e.rol} ${e.equipo}`.toLowerCase().includes(busqueda)) return;
+                const div = document.createElement('div');
+                div.className = 'tarjeta';
+                div.style = 'display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;';
+                div.innerHTML = `<div><strong>${e.nombre}</strong> - <small>${e.rol} (${e.equipo})</small></div>
+                                 <button onclick="añadirMiembro(${indice})" style="width:auto; padding:4px 8px;">Añadir</button>`;
+                Disponibles.appendChild(div);
+            });
+        }
+
+        // Muestra la lista de miembros seleccionados de data.js
+        function dibujarSeleccionados() {
+            Seleccionados.innerHTML = '';
+            document.getElementById('contador-seleccionados').innerText = miembrosSeleccionados.length;
+            miembrosSeleccionados.forEach((e, indice) => {
+                const div = document.createElement('div');
+                div.className = 'tarjeta';
+                div.style = 'display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;';
+                div.innerHTML = `<div><strong>${e.nombre}</strong> - <small>${e.rol}</small></div>
+                                 <button onclick="removerMiembro(${indice})" class="secundario" style="width:auto; padding:4px 8px;">Quitar</button>`;
+                Seleccionados.appendChild(div);
+            });
+        }        
+        
+        // Muestra la lista de equipos por nombre, cantidad de miembros y puntaje promedio
+        function dibujarEquipos() {    
+        Equipos.innerHTML = equiposExistentes.map(eq => 
+            `<p>• <strong>${eq.nombre}</strong>: ${eq.miembros} integrantes (Puntaje Promedio: ${eq.puntaje})</p>`
+                ).join('');
+        }        
+        
+        // Funciones para remover y añadirlo a la lista de seleccionados
+        window.añadirMiembro = function(indice) {
+        miembrosSeleccionados.push(empleadosDisponibles.splice(indice, 1)[0]);
+                dibujarDisponibles(); dibujarSeleccionados();
+        };
+
+        // Función para remover y añadirlo a la lista de disponibles
+        window.removerMiembro = function(indice) {
+            empleadosDisponibles.push(miembrosSeleccionados.splice(indice, 1)[0]);
+            dibujarDisponibles(); dibujarSeleccionados();
+        };
+
+        // Función para dibujar una propuesta de equipo
+        function dibujarPropuesta(propuesta) {
+            propuestaActual = propuesta;
+            const listaHtml = propuesta.equipo.map(e => `<li>${e.nombre} (${e.rol})</li>`).join('');
+            PanelPropuesta.innerHTML = `
+                <h3>${propuesta.nombre}</h3>
+                <p>Integrantes: ${propuesta.miembros} | Rendimiento: ${propuesta.puntaje}</p>
+                <ul>${listaHtml}</ul>
+                <button onclick="guardarPropuesta()" style="margin-top:5px;">Convertir en Equipo Oficial</button>
+            `;
+        }
+
+        // Función para dibujar la comparación de tres grupos   
+        function dibujarComparacion(comparacion) {
+            propuestaActual = comparacion;
+            const gruposHtml = comparacion.grupos.map(g => `
+                <div style="border-bottom:1px solid #ddd; padding:5px 0;">
+                    <h4>${g.nombre}</h4>
+                    <p>${g.miembros} miembros | Promedio: ${g.puntaje}</p>
+                </div>
+            `).join('');
+            PanelPropuesta.innerHTML = `<h3>Comparativa</h3>${gruposHtml}
+                <button onclick="adoptarGrupoA()" style="margin-top:10px;">Adoptar Grupo A</button>`;
+        }
+
+        // Función para generar tres propuestas segun el criterio
+        function compararGrupos(empleados, opciones) {
+            return {
+                tipo: 'comparar',
+                grupos: [
+                    window.generarPropuesta(empleados, { ...opciones, criterio: opciones.criterio }),
+                    window.generarPropuesta(empleados, { ...opciones, criterio: 'puntaje' }),
+                    window.generarPropuesta(empleados, { ...opciones, criterio: 'disponibilidad' })
+                ]
+            };
+        }
+
+        // Función para guardar la propuesta actual
+        window.guardarPropuesta = function() {
+            if (!propuestaActual) return;
+            equiposExistentes.unshift({ nombre: propuestaActual.nombre, puntaje: propuestaActual.puntaje, miembros: propuestaActual.miembros });
+            // Llamada a la función para dibujar la lista de equipos
+            dibujarEquipos();
+            mostrarAviso("Propuesta guardada.");
+        };
+
+        // Función para adoptar el grupo A
+        window.adoptarGrupoA = function() {
+            if (!propuestaActual || !propuestaActual.grupos) return;
+            propuestaActual.grupos[0].equipo.forEach(e => {
+                if (!miembrosSeleccionados.some(sel => sel.nombre === e.nombre)) miembrosSeleccionados.push(e);
+                empleadosDisponibles = empleadosDisponibles.filter(item => item.nombre !== e.nombre);
+            });
+            dibujarDisponibles(); dibujarSeleccionados();
+            mostrarAviso("Grupo cargado.");
+        };
+
+        // Evento para generar la propuesta de equipo según los criterios seleccionados
+        document.getElementById('btn-generar').addEventListener('click', () => {
+            const opciones = {
+                criterio: document.getElementById('criterio-select').value,
+                carga: document.getElementById('carga-select').value,
+                disponibilidad: document.getElementById('disponibilidad-select').value,
+                tamanio: parseInt(document.getElementById('tamanio-select').value)
+            };
+            // Dependiendo del modo seleccionado, se genera una propuesta única o se comparan tres grupos
+            if (document.getElementById('modo-select').value === 'comparar') {
+                dibujarComparacion(compararGrupos(empleadosCompletos, opciones));
+            } else {
+                dibujarPropuesta(window.generarPropuesta(empleadosCompletos, opciones));
+            }
+        });
+
+        // Evento para crear un equipo oficial a partir de los miembros seleccionados
+        document.getElementById('btn-crear').addEventListener('click', () => {
+            const nombre = txtNombreEquipo.value.trim();
+            if (!nombre || !miembrosSeleccionados.length) { alert('Faltan datos.'); return; }
+            const suma = miembrosSeleccionados.reduce((acc, e) => acc + e.puntaje, 0);
+            equiposExistentes.unshift({ nombre, puntaje: (suma / miembrosSeleccionados.length).toFixed(1), miembros: miembrosSeleccionados.length });
+            txtNombreEquipo.value = '';
+            empleadosDisponibles = [...empleadosDisponibles, ...miembrosSeleccionados];
+            miembrosSeleccionados = [];
+            dibujarEquipos(); dibujarDisponibles(); dibujarSeleccionados();
+            mostrarAviso("Equipo creado.");
+        });
+
+        // Evento para limpiar los campos y reiniciar las listas
+        document.getElementById('btn-limpiar').addEventListener('click', () => {
+            txtNombreEquipo.value = '';
+            empleadosDisponibles = [...empleadosCompletos];
+            miembrosSeleccionados = [];
+            dibujarDisponibles(); dibujarSeleccionados();
+        });
+
+        // Evento para filtrar la lista de empleados disponibles según la búsqueda
+        txtBuscar.addEventListener('input', dibujarDisponibles);
+
+        // Inicialización de la lista de empleados al cargar la página
+        empleadosCompletos = window.obtenerEmpleados();
+        empleadosDisponibles = [...empleadosCompletos];
+        dibujarDisponibles();
+    </script>
+</body>
+</html>
